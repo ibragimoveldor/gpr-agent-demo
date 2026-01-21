@@ -8,6 +8,16 @@ from datetime import datetime
 import sqlite3
 import re
 
+
+import os
+from pathlib import Path
+
+# Auto-create database if it doesn't exist (for deployment)
+if not Path('gpr_defects.db').exists():
+    import database_setup
+    conn = database_setup.create_database()
+    database_setup.populate_sample_data(conn)
+    conn.close()
 # Page config
 st.set_page_config(
     page_title="GPR Defect Analysis Agent",
